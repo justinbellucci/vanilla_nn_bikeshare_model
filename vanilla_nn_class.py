@@ -16,7 +16,7 @@ class VanillaNN(object):
                                      (self.hidden_nodes, self.output_nodes))   
         self.learning_rate = learning_rate
 
-        # define activation function
+        # define sigmoid activation function
         self.activation_fn = lambda x: 1 / (1 + np.exp(-x))    
 
     def forward(self, features):
@@ -62,3 +62,17 @@ class VanillaNN(object):
         delta_weights_i_h += X[:,None] * hidden_error_term
 
         return delta_weights_i_h, delta_weights_h_o
+
+    def update_weights(self, delta_weights_i_h, delta_weights_h_o, n_records):
+        """ Update the weights after the gradient descent step.
+
+            Arguments:
+                - delta_weights_i_h: change in weights from input to hidden layers
+                - delta_weights_h_o: change in weights from hidden to output layer
+                - n_records: len(features)
+        """
+        # update weights from hidden to output using gradient descent
+        self.weights_hidden_to_out += (self.learning_rate * delta_weights_h_o) / n_records
+        # update weights from input to hidden layer
+        self.weights_in_to_hidden += (self.learning_rate * delta_weights_i_h) / n_records
+         
