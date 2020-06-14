@@ -75,4 +75,3 @@ class VanillaNN(object):
         self.weights_hidden_to_out += (self.learning_rate * delta_weights_h_o) / n_records
         # update weights from input to hidden layer
         self.weights_in_to_hidden += (self.learning_rate * delta_weights_i_h) / n_records
-         
