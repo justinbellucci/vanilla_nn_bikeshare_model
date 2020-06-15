@@ -10,9 +10,9 @@ class VanillaNN(object):
         self.hidden_nodes = hidden_nodes
         self.output_nodes = output_nodes
         # Initialize weigths with a random normal distribution
-        self.weights_in_to_hidden = np.random.uniform(0.0, self.input_nodes**-0.5,
+        self.weights_in_to_hidden = np.random.normal(0.0, self.input_nodes**-0.5,
                                     (self.input_nodes, self.hidden_nodes))
-        self.weights_hidden_to_out = np.random.uniform(0.0, self.hidden_nodes**-0.5,
+        self.weights_hidden_to_out = np.random.normal(0.0, self.hidden_nodes**-0.5,
                                      (self.hidden_nodes, self.output_nodes))   
         # initialize the delta weights parameters
         self.learning_rate = learning_rate
@@ -53,14 +53,14 @@ class VanillaNN(object):
         # calculate error
         error = y - final_outputs
         # output error term is just the output error
-        output_error_term = error * 1.0
+        output_error_term = error * 1
         # calculate hidden error term
         hidden_error = np.dot(self.weights_hidden_to_out, output_error_term)
         hidden_error_term = hidden_error * self.hidden_outputs * (1 - self.hidden_outputs)
         # caclulate the weight step (hidden to output)
         delta_weights_h_o += self.hidden_outputs[:,None] * output_error_term
         # caclulate the weight step (input to hidden)
-        delta_weights_i_h += X[:,None] * hidden_error_term
+        delta_weights_i_h = delta_weights_i_h + hidden_error_term * X[:,None]
 
         return delta_weights_i_h, delta_weights_h_o
 
@@ -73,9 +73,9 @@ class VanillaNN(object):
                 - n_records: len(features)
         """
         # update weights from hidden to output using gradient descent
-        self.weights_hidden_to_out += (self.learning_rate * delta_weights_h_o) / n_records
+        self.weights_hidden_to_out = self.weights_hidden_to_out + (self.learning_rate * delta_weights_h_o) / n_records
         # update weights from input to hidden layer
-        self.weights_in_to_hidden += (self.learning_rate * delta_weights_i_h) / n_records
+        self.weights_in_to_hidden = self.weights_in_to_hidden + (self.learning_rate * delta_weights_i_h) / n_records
 
     def train(self, features, targets):
         """ Train the neural network on a batch of features 
@@ -94,7 +94,7 @@ class VanillaNN(object):
             # run model 
             final_outputs = self.forward(X)
             # backpropagation to calculate gradients
-            delta_weights_i_h, delta_weigths_h_o = self.backprop(final_outputs, X, y,
+            delta_weights_i_h, delta_weights_h_o = self.backprop(final_outputs, X, y,
                                                                  delta_weights_i_h, delta_weights_h_o)
         # update weights
         self.update_weights(delta_weights_i_h, delta_weights_h_o, n_records)
