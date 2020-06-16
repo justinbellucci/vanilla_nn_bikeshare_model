@@ -14,6 +14,8 @@ class VanillaNN(object):
                                     (self.input_nodes, self.hidden_nodes))
         self.weights_hidden_to_out = np.random.normal(0.0, self.hidden_nodes**-0.5,
                                      (self.hidden_nodes, self.output_nodes))   
+
+        self.bias = 0
         # initialize the delta weights parameters
         self.learning_rate = learning_rate
 
