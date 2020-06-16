@@ -18,7 +18,7 @@ class VanillaNN(object):
         self.learning_rate = learning_rate
 
         # define sigmoid activation function
-        self.activation_fn = lambda x: 1 / (1 + np.exp(-x))    
+        self.sigmoid = lambda x: 1 / (1 + np.exp(-x))    
 
     def forward(self, features):
         """ Perform a forward pass through the network.
@@ -32,7 +32,7 @@ class VanillaNN(object):
         # calculate hidden layer inputs 
         hidden_inputs = np.dot(features, self.weights_in_to_hidden)
         # apply the sigmoid activation function to get hidden layer output
-        self.hidden_outputs = self.activation_fn(hidden_inputs)
+        self.hidden_outputs = self.sigmoid(hidden_inputs)
         # calculate final layer inputs
         final_inputs = np.dot(self.hidden_outputs, self.weights_hidden_to_out)
         final_outputs = final_inputs
