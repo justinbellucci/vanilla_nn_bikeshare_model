@@ -13,7 +13,7 @@ Automatic bike share rental systems have become commonplace in many cities. Ride
 
 <a id='installing_locally'></a>
 ## Installing Locally
-If would like to tinker feel free to install locally and make it your own.
+If you would like to tinker feel free to install locally and make it your own.
 
 1. Install dependencies - I generally use Conda for my environment and package management. 
 
